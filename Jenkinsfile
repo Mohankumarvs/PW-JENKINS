@@ -1,5 +1,5 @@
 pipeline {
-  agent none
+  agent any
 
   stages {
     stage('install playwright') {
@@ -18,7 +18,9 @@ pipeline {
     stage('test') {
       steps {
         sh '''
-          npx playwright test
+          npm run test:reporter
+          npm run allure-report
+          npm run allure-close
         '''
       }
       post {
