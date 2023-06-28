@@ -1,32 +1,52 @@
 pipeline {
-  agent any
-
   stages {
     stage('install playwright') {
       steps {
-        sh '''
-          npm i -D @playwright/test
-          npx playwright install
-        '''
+        script {
+          node {
+            stage('Install Playwright') {
+              sh '''
+                npm i -D @playwright/test
+                npx playwright install
+              '''
+            }
+          }
+        }
       }
     }
     stage('help') {
       steps {
-        sh 'npx playwright test --help'
+        script {
+          node {
+            stage('Help') {
+              sh 'npx playwright test --help'
+            }
+          }
+        }
       }
     }
     stage('test') {
       steps {
-        sh '''
-          npm run test:reporter
-          npm run allure-report
-          npm run allure-close
-        '''
+        script {
+          node {
+            stage('Test') {
+              sh '''
+                npx playwright test
+              '''
+            }
+          }
+        }
       }
       post {
         success {
-          archiveArtifacts(artifacts: 'homepage-*.png', followSymlinks: false)
-          sh 'rm -rf *.png'
+          script {
+            node {
+              stage('Post-Success') {
+                archiveArtifacts(artifacts: 'homepage-*.png', followSymlinks: false)
+                sh 'rm -rf *.png'
+              }
+            }
+          }
         }
       }
     }
