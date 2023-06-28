@@ -1,0 +1,21 @@
+{
+  "name": "pw-jenkins",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test --headed",
+    "test:headless": "playwright test",
+    "test:reporter": "npm run test --reporter=allure-playwright",
+    "allure-report": "npx allure generate ./allure-results --clean && allure open",
+    "allure-close": "taskkill /F /IM allure-commandline*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.35.1",
+    "allure-playwright": "^2.4.0",
+    "playwright": "^1.35.1"
+  }
+}
